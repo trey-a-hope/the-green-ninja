@@ -1,7 +1,9 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:the_green_ninja/constants/globals.dart';
 import 'package:the_green_ninja/enemies/dark_ninja_enemy.dart';
+import 'package:the_green_ninja/enums/attack_type.dart';
 import 'package:the_green_ninja/npcs/old_man_npc.dart';
 import 'package:the_green_ninja/players/green_ninja_player.dart';
 import '../sprite_sheets/sprite_sheets.dart';
@@ -19,6 +21,28 @@ class _TheGreenNinjaGameState extends State<TheGreenNinjaGame> {
     return BonfireWidget(
       joystick: Joystick(
         directional: JoystickDirectional(),
+        keyboardConfig: KeyboardConfig(
+          keyboardDirectionalType: KeyboardDirectionalType.wasdAndArrows,
+          acceptedKeys: [
+            LogicalKeyboardKey.numpadEnter,
+            LogicalKeyboardKey.numpad0,
+          ],
+        ),
+        actions: [
+          JoystickAction(
+            actionId: AttackType.melee,
+            sprite: Sprite.load(Globals.sword),
+            align: JoystickActionAlign.BOTTOM_RIGHT,
+            size: 80,
+            margin: const EdgeInsets.only(bottom: 50, right: 50),
+          ),
+          JoystickAction(
+            actionId: AttackType.range,
+            sprite: Sprite.load(Globals.shurikenSingle),
+            size: 50,
+            margin: const EdgeInsets.only(bottom: 50, right: 160),
+          )
+        ],
       ),
       player: GreenNinjaPlayer(
         spriteSheet: GreenNinjaSpriteSheet.spriteSheet,
