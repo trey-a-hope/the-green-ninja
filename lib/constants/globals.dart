@@ -16,6 +16,7 @@ class Globals {
   static const double smallItemSize = 25.0;
   static const double defaultTileSize = 32.0;
   static const double playerSize = Globals.defaultTileSize * 1.5;
+  static const double dialogBox = 100;
 
   /// Players
   static const String greenNinjaSpriteSheet = 'sprite_sheets/green_ninja.png';
