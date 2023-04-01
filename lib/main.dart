@@ -1,7 +1,25 @@
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
+import 'package:the_green_ninja/constants/globals.dart';
+import 'package:the_green_ninja/sprite_sheets/sprite_sheets.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await GreenNinjaSpriteSheet.load();
+  await BlueNinjaSpriteSheet.load();
+  await OldManSpriteSheet.load();
+  await DarkNinjaSpriteSheet.load();
+
+  await FlameAudio.audioCache.loadAll(
+    [
+      Globals.gameOverSound,
+      Globals.powerUpSound,
+      Globals.successSound,
+      Globals.explosionSound,
+      Globals.fireSound,
+    ],
+  );
 
   runApp(const MyApp());
 }
