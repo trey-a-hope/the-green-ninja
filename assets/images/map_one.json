@@ -79,6 +79,66 @@
                  "width":16,
                  "x":112.588235294118,
                  "y":141.823529411765
+                }, 
+                {
+                 "class":"",
+                 "gid":141,
+                 "height":16,
+                 "id":2,
+                 "name":"dark_ninja",
+                 "rotation":0,
+                 "visible":true,
+                 "width":16,
+                 "x":275.823529411765,
+                 "y":135.941176470588
+                }, 
+                {
+                 "class":"",
+                 "gid":141,
+                 "height":16,
+                 "id":3,
+                 "name":"dark_ninja",
+                 "rotation":0,
+                 "visible":true,
+                 "width":16,
+                 "x":434.647058823529,
+                 "y":131.529411764706
+                }, 
+                {
+                 "class":"",
+                 "gid":141,
+                 "height":16,
+                 "id":4,
+                 "name":"dark_ninja",
+                 "rotation":0,
+                 "visible":true,
+                 "width":16,
+                 "x":590.529411764706,
+                 "y":130.058823529412
+                }, 
+                {
+                 "class":"",
+                 "gid":141,
+                 "height":16,
+                 "id":5,
+                 "name":"dark_ninja",
+                 "rotation":0,
+                 "visible":true,
+                 "width":16,
+                 "x":746.411764705882,
+                 "y":128.588235294118
+                }, 
+                {
+                 "class":"",
+                 "gid":141,
+                 "height":16,
+                 "id":6,
+                 "name":"dark_ninja",
+                 "rotation":0,
+                 "visible":true,
+                 "width":16,
+                 "x":919.941176470588,
+                 "y":131.529411764706
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -87,7 +147,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":2,
+ "nextobjectid":8,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",
@@ -99,7 +159,11 @@
         }, 
         {
          "firstgid":113,
-         "source":"old_man.json"
+         "source":"old_man_tileset.json"
+        }, 
+        {
+         "firstgid":141,
+         "source":"dark_ninja_tileset.json"
         }],
  "tilewidth":32,
  "type":"map",

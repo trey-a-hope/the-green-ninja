@@ -11,8 +11,9 @@ class OldManNPC extends SimpleNpc with TapGesture, AutomaticRandomMovement {
 
   OldManNPC({
     required Vector2 position,
+    required SpriteSheet spriteSheet,
   }) : super(
-          animation: AnimationConfigs.oldManAnimation,
+          animation: AnimationConfigs.oldManAnimation(spriteSheet: spriteSheet),
           size: Vector2.all(Globals.playerSize),
           position: position,
           initDirection: Direction.left,
