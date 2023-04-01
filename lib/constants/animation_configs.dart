@@ -1,11 +1,84 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:the_green_ninja/constants/globals.dart';
-import 'package:the_green_ninja/sprite_sheets/blue_ninja_sprite_sheet.dart';
-import 'package:the_green_ninja/sprite_sheets/dark_ninja_sprite_sheet.dart';
-import 'package:the_green_ninja/sprite_sheets/green_ninja_sprite_sheet.dart';
+import 'package:the_green_ninja/sprite_sheets/sprite_sheets.dart';
 
 class AnimationConfigs {
   AnimationConfigs._();
+
+  static SimpleDirectionAnimation oldManAnimation = SimpleDirectionAnimation(
+    idleDown: SpriteAnimation.variableSpriteList(
+      [OldManSpriteSheet.spriteSheet.getSprite(0, 0)],
+      stepTimes: [Globals.spriteStepTime],
+    ),
+    runDown: SpriteAnimation.variableSpriteList(
+      [
+        OldManSpriteSheet.spriteSheet.getSprite(0, 0),
+        OldManSpriteSheet.spriteSheet.getSprite(1, 0),
+        OldManSpriteSheet.spriteSheet.getSprite(2, 0),
+        OldManSpriteSheet.spriteSheet.getSprite(3, 0),
+      ],
+      stepTimes: [
+        Globals.spriteStepTime,
+        Globals.spriteStepTime,
+        Globals.spriteStepTime,
+        Globals.spriteStepTime,
+      ],
+    ),
+    idleUp: SpriteAnimation.variableSpriteList(
+      [OldManSpriteSheet.spriteSheet.getSprite(0, 1)],
+      stepTimes: [Globals.spriteStepTime],
+    ),
+    runUp: SpriteAnimation.variableSpriteList(
+      [
+        OldManSpriteSheet.spriteSheet.getSprite(0, 1),
+        OldManSpriteSheet.spriteSheet.getSprite(1, 1),
+        OldManSpriteSheet.spriteSheet.getSprite(2, 1),
+        OldManSpriteSheet.spriteSheet.getSprite(3, 1),
+      ],
+      stepTimes: [
+        Globals.spriteStepTime,
+        Globals.spriteStepTime,
+        Globals.spriteStepTime,
+        Globals.spriteStepTime,
+      ],
+    ),
+    idleLeft: SpriteAnimation.variableSpriteList(
+      [OldManSpriteSheet.spriteSheet.getSprite(0, 2)],
+      stepTimes: [Globals.spriteStepTime],
+    ),
+    runLeft: SpriteAnimation.variableSpriteList(
+      [
+        OldManSpriteSheet.spriteSheet.getSprite(0, 2),
+        OldManSpriteSheet.spriteSheet.getSprite(1, 2),
+        OldManSpriteSheet.spriteSheet.getSprite(2, 2),
+        OldManSpriteSheet.spriteSheet.getSprite(3, 2),
+      ],
+      stepTimes: [
+        Globals.spriteStepTime,
+        Globals.spriteStepTime,
+        Globals.spriteStepTime,
+        Globals.spriteStepTime,
+      ],
+    ),
+    idleRight: SpriteAnimation.variableSpriteList(
+      [OldManSpriteSheet.spriteSheet.getSprite(0, 3)],
+      stepTimes: [Globals.spriteStepTime],
+    ),
+    runRight: SpriteAnimation.variableSpriteList(
+      [
+        OldManSpriteSheet.spriteSheet.getSprite(0, 3),
+        OldManSpriteSheet.spriteSheet.getSprite(1, 3),
+        OldManSpriteSheet.spriteSheet.getSprite(2, 3),
+        OldManSpriteSheet.spriteSheet.getSprite(3, 3),
+      ],
+      stepTimes: [
+        Globals.spriteStepTime,
+        Globals.spriteStepTime,
+        Globals.spriteStepTime,
+        Globals.spriteStepTime,
+      ],
+    ),
+  );
 
   static SimpleDirectionAnimation demonCyclopAnimation =
       SimpleDirectionAnimation(
