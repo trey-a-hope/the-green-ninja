@@ -44,4 +44,6 @@ class Globals {
 
   /// Decorations
   static const String fire = 'decorations/fire.png';
+
+  static const String mapOne = 'map_one.json';
 }

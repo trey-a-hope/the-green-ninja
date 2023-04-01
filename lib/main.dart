@@ -1,6 +1,7 @@
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:the_green_ninja/constants/globals.dart';
+import 'package:the_green_ninja/games/the_green_ninja_game.dart';
 import 'package:the_green_ninja/sprite_sheets/sprite_sheets.dart';
 
 void main() async {
@@ -34,9 +35,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Center(
-        child: Text('How To Make A Game With Flutter + Flame'),
-      ),
+      home: const TheGreenNinjaGame(),
     );
   }
 }
