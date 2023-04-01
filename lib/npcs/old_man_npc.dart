@@ -5,7 +5,10 @@ import 'package:the_green_ninja/constants/animation_configs.dart';
 import 'package:the_green_ninja/constants/globals.dart';
 import 'package:the_green_ninja/sprite_sheets/sprite_sheets.dart';
 
-class OldManNPC extends SimpleNpc with TapGesture {
+class OldManNPC extends SimpleNpc with TapGesture, AutomaticRandomMovement {
+  bool _observedPlayer = false;
+  late TextPaint _textConfig;
+
   OldManNPC({
     required Vector2 position,
   }) : super(
@@ -14,11 +17,54 @@ class OldManNPC extends SimpleNpc with TapGesture {
           position: position,
           initDirection: Direction.left,
           speed: Globals.playerSize,
-        );
+        ) {
+    _textConfig = TextPaint(
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: width / 2,
+      ),
+    );
+  }
 
   @override
   void onTap() {
-    _showTalkDialog();
+    if (_observedPlayer) {
+      _showTalkDialog();
+    }
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+    if (_observedPlayer) {
+      _textConfig.render(
+        canvas,
+        'Well, if it isn\'t Green Ninja.',
+        Vector2(x - width / 1.5, center.y - (height + 5)),
+      );
+    }
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    seeAndMoveToPlayer(
+      closePlayer: (player) {},
+      radiusVision: Globals.radiusVision,
+      observed: () {
+        if (!_observedPlayer) {
+          _observedPlayer = true;
+        }
+      },
+      notObserved: () {
+        _observedPlayer = false;
+        runRandomMovement(
+          dt,
+          maxDistance: Globals.observeMaxDistance,
+          minDistance: Globals.observeMinDistance,
+        );
+      },
+    );
   }
 
   Say speak({required String text, required bool isHero}) => Say(

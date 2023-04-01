@@ -4,6 +4,11 @@ class Globals {
   /// Time limits
   static const double spriteStepTime = 0.1;
 
+  /// Distances
+  static const int observeMaxDistance = 70;
+  static const int observeMinDistance = 30;
+  static const double radiusVision = 130;
+
   /// Sounds
   static const String gameOverSound = 'effects/game_over.wav';
   static const String powerUpSound = 'effects/power_up.wav';
