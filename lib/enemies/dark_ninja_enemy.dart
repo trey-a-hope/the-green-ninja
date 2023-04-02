@@ -56,7 +56,12 @@ class DarkNinjaEnemy extends SimpleEnemy
       seeAndMoveToPlayer(
         closePlayer: (player) {
           if (gameRef.player != null && gameRef.player?.isDead == true) return;
-          //TODO: Melee attack.
+          simpleAttackMelee(
+            size: Vector2.all(size.y),
+            damage: _damage,
+            sizePush: Globals.defaultTileSize / 2,
+            animationRight: AnimationConfigs.cutAnimation(),
+          );
         },
         observed: () {
           _seePlayerToAttackMelee = true;
@@ -70,7 +75,15 @@ class DarkNinjaEnemy extends SimpleEnemy
           positioned: (p) {
             if (gameRef.player != null && gameRef.player?.isDead == true)
               return;
-            //TODO: Range attack.
+            simpleAttackRange(
+              animationRight: AnimationConfigs.shurikenAnimation(),
+              animationDestroy: AnimationConfigs.smokeAnimation(),
+              size: Vector2.all(width * 0.9),
+              damage: _damage,
+              speed: Globals.defaultTileSize * 3,
+              collision:
+                  CollisionConfigs.projectileCollisionConfig(width: width),
+            );
           },
           radiusVision: Globals.radiusVision * 3,
           notObserved: () {
