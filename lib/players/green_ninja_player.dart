@@ -6,6 +6,7 @@ import 'package:the_green_ninja/constants/animation_configs.dart';
 import 'package:the_green_ninja/constants/collision_configs.dart';
 import 'package:the_green_ninja/constants/globals.dart';
 import 'package:the_green_ninja/enums/attack_type.dart';
+import 'package:the_green_ninja/screens/game_over_screen.dart';
 
 class GreenNinjaPlayer extends SimplePlayer
     with UseBarLife, ObjectCollision, Lighting {
@@ -104,6 +105,8 @@ class GreenNinjaPlayer extends SimplePlayer
     FlameAudio.play(Globals.gameOverSound);
     gameRef.camera.shake(intensity: 4);
     removeFromParent();
+    gameRef.pauseEngine();
+    gameRef.overlayManager.add(GameOverScreen.iD);
     super.die();
   }
 }
