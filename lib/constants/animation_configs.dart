@@ -5,6 +5,15 @@ import 'package:the_green_ninja/sprite_sheets/sprite_sheets.dart';
 class AnimationConfigs {
   AnimationConfigs._();
 
+  static Future<SpriteAnimation> smokeAnimation() => SpriteAnimation.load(
+        Globals.smoke,
+        SpriteAnimationData.sequenced(
+          amount: 6,
+          stepTime: Globals.spriteStepTime,
+          textureSize: Vector2(32, 32),
+        ),
+      );
+
   static Future<SpriteAnimation> cutAnimation() => SpriteAnimation.load(
         Globals.cut,
         SpriteAnimationData.sequenced(
@@ -17,6 +26,15 @@ class AnimationConfigs {
   static Future<SpriteAnimation> shurikenMagicAnimation() =>
       SpriteAnimation.load(
         Globals.shurikenMagic,
+        SpriteAnimationData.sequenced(
+          amount: 1,
+          stepTime: Globals.spriteStepTime,
+          textureSize: Vector2(32, 32),
+        ),
+      );
+
+  static Future<SpriteAnimation> shurikenAnimation() => SpriteAnimation.load(
+        Globals.shuriken,
         SpriteAnimationData.sequenced(
           amount: 1,
           stepTime: Globals.spriteStepTime,

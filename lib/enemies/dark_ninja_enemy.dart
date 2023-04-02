@@ -7,6 +7,9 @@ import 'package:the_green_ninja/constants/globals.dart';
 
 class DarkNinjaEnemy extends SimpleEnemy
     with ObjectCollision, AutomaticRandomMovement, UseBarLife {
+  bool _seePlayerToAttackMelee = false;
+  final double _damage = 10;
+
   DarkNinjaEnemy({
     required Vector2 position,
     required SpriteSheet spriteSheet,
@@ -47,18 +50,39 @@ class DarkNinjaEnemy extends SimpleEnemy
   @override
   void update(double dt) {
     super.update(dt);
-    seeAndMoveToPlayer(
-      closePlayer: (player) {},
-      radiusVision: Globals.radiusVision,
-      observed: () {},
-      notObserved: () {
-        runRandomMovement(
-          dt,
-          maxDistance: Globals.observeMaxDistance,
-          minDistance: Globals.observeMinDistance,
+    if (!gameRef.sceneBuilderStatus.isRunning) {
+      _seePlayerToAttackMelee = false;
+
+      seeAndMoveToPlayer(
+        closePlayer: (player) {
+          if (gameRef.player != null && gameRef.player?.isDead == true) return;
+          //TODO: Melee attack.
+        },
+        observed: () {
+          _seePlayerToAttackMelee = true;
+        },
+        radiusVision: Globals.defaultTileSize * 2,
+      );
+
+      if (!_seePlayerToAttackMelee) {
+        seeAndMoveToAttackRange(
+          minDistanceFromPlayer: Globals.defaultTileSize * 4,
+          positioned: (p) {
+            if (gameRef.player != null && gameRef.player?.isDead == true)
+              return;
+            //TODO: Range attack.
+          },
+          radiusVision: Globals.radiusVision * 3,
+          notObserved: () {
+            runRandomMovement(
+              dt,
+              maxDistance: Globals.observeMaxDistance,
+              minDistance: Globals.observeMinDistance,
+            );
+          },
         );
-      },
-    );
+      }
+    }
   }
 
   @override
