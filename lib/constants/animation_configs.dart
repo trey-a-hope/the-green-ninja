@@ -5,6 +5,15 @@ import 'package:the_green_ninja/sprite_sheets/sprite_sheets.dart';
 class AnimationConfigs {
   AnimationConfigs._();
 
+  static Future<SpriteAnimation> fireAnimation() => SpriteAnimation.load(
+        Globals.fire,
+        SpriteAnimationData.sequenced(
+          amount: 5,
+          stepTime: Globals.spriteStepTime,
+          textureSize: Vector2(32, 32),
+        ),
+      );
+
   static Future<SpriteAnimation> fireBallAnimation() => SpriteAnimation.load(
         Globals.fireBall,
         SpriteAnimationData.sequenced(

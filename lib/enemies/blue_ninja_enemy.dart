@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:the_green_ninja/constants/animation_configs.dart';
 import 'package:the_green_ninja/constants/collision_configs.dart';
 import 'package:the_green_ninja/constants/globals.dart';
+import 'package:the_green_ninja/decorations/coin.dart';
 
 class BlueNinjaEnemy extends SimpleEnemy
     with ObjectCollision, AutomaticRandomMovement, UseBarLife {
@@ -102,6 +103,7 @@ class BlueNinjaEnemy extends SimpleEnemy
   void die() {
     gameRef.camera.shake(intensity: 4);
     removeFromParent();
+    gameRef.add(Coin(position: position));
     super.die();
   }
 }

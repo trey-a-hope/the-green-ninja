@@ -7,7 +7,8 @@ import 'package:the_green_ninja/constants/collision_configs.dart';
 import 'package:the_green_ninja/constants/globals.dart';
 import 'package:the_green_ninja/enums/attack_type.dart';
 
-class GreenNinjaPlayer extends SimplePlayer with UseBarLife, ObjectCollision {
+class GreenNinjaPlayer extends SimplePlayer
+    with UseBarLife, ObjectCollision, Lighting {
   final double _damage = 10;
 
   GreenNinjaPlayer({
@@ -31,6 +32,14 @@ class GreenNinjaPlayer extends SimplePlayer with UseBarLife, ObjectCollision {
 
     setupCollision(
       CollisionConfigs.playerCollisionConfig(),
+    );
+
+    setupLighting(
+      LightingConfig(
+        radius: width * 1.5,
+        blurBorder: width * 1.5,
+        color: Colors.transparent,
+      ),
     );
   }
 

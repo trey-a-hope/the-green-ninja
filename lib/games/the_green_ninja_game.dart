@@ -2,6 +2,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:the_green_ninja/constants/globals.dart';
+import 'package:the_green_ninja/decorations/fire.dart';
 import 'package:the_green_ninja/enemies/blue_ninja_enemy.dart';
 import 'package:the_green_ninja/enemies/dark_ninja_enemy.dart';
 import 'package:the_green_ninja/enemies/demon_cyclop_enemy.dart';
@@ -50,6 +51,7 @@ class _TheGreenNinjaGameState extends State<TheGreenNinjaGame> {
         spriteSheet: GreenNinjaSpriteSheet.spriteSheet,
         position: Vector2(40, 40),
       ),
+      lightingColorGame: Colors.black.withOpacity(0.50),
       map: WorldMapByTiled(
         Globals.mapOne,
         forceTileSize: Vector2(
@@ -70,6 +72,9 @@ class _TheGreenNinjaGameState extends State<TheGreenNinjaGame> {
                 spriteSheet: BlueNinjaSpriteSheet.spriteSheet,
               ),
           'demon': (TiledObjectProperties properties) => DemonCyclopEnemy(
+                position: properties.position,
+              ),
+          'fire': (TiledObjectProperties properties) => Fire(
                 position: properties.position,
               ),
         },

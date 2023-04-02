@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bonfire/bonfire.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +102,10 @@ class DemonCyclopEnemy extends SimpleEnemy
   void die() {
     gameRef.camera.shake(intensity: 4);
     removeFromParent();
-    gameRef.add(Medipack(position: position));
+    bool dropPickup = Random().nextBool();
+    if (dropPickup) {
+      gameRef.add(Medipack(position: position));
+    }
     super.die();
   }
 }
