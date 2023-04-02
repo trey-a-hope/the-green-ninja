@@ -1,11 +1,13 @@
 import 'package:bonfire/bonfire.dart';
+import 'package:flame_audio/flame_audio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:the_green_ninja/constants/animation_configs.dart';
 import 'package:the_green_ninja/constants/collision_configs.dart';
 import 'package:the_green_ninja/constants/globals.dart';
 import 'package:the_green_ninja/enums/attack_type.dart';
 
-class GreenNinjaPlayer extends SimplePlayer {
+class GreenNinjaPlayer extends SimplePlayer with UseBarLife, ObjectCollision {
   final double _damage = 10;
 
   GreenNinjaPlayer({
@@ -20,7 +22,17 @@ class GreenNinjaPlayer extends SimplePlayer {
           initDirection: Direction.down,
           speed: Globals.playerSize * 3,
           life: 100,
-        );
+        ) {
+    setupBarLife(
+      showLifeText: false,
+      borderRadius: BorderRadius.circular(2),
+      borderWidth: 2,
+    );
+
+    setupCollision(
+      CollisionConfigs.playerCollisionConfig(),
+    );
+  }
 
   @override
   void joystickAction(JoystickActionEvent event) {
@@ -60,5 +72,26 @@ class GreenNinjaPlayer extends SimplePlayer {
     }
 
     super.joystickAction(event);
+  }
+
+  @override
+  void receiveDamage(AttackFromEnum attacker, double damage, identify) {
+    FlameAudio.play(Globals.explosionSound);
+    showDamage(
+      damage,
+      config: TextStyle(
+        fontSize: width / 3,
+        color: Colors.red,
+      ),
+    );
+    super.receiveDamage(attacker, damage, identify);
+  }
+
+  @override
+  void die() {
+    FlameAudio.play(Globals.gameOverSound);
+    gameRef.camera.shake(intensity: 4);
+    removeFromParent();
+    super.die();
   }
 }
