@@ -76,14 +76,17 @@ class GreenNinjaPlayer extends SimplePlayer with UseBarLife, ObjectCollision {
 
   @override
   void receiveDamage(AttackFromEnum attacker, double damage, identify) {
-    FlameAudio.play(Globals.explosionSound);
-    showDamage(
-      damage,
-      config: TextStyle(
-        fontSize: width / 3,
-        color: Colors.red,
-      ),
-    );
+    if (attacker == AttackFromEnum.ENEMY) {
+      FlameAudio.play(Globals.explosionSound);
+      showDamage(
+        damage,
+        config: TextStyle(
+          fontSize: width / 3,
+          color: Colors.red,
+        ),
+      );
+    }
+
     super.receiveDamage(attacker, damage, identify);
   }
 

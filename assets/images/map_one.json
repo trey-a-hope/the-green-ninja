@@ -139,6 +139,42 @@
                  "width":16,
                  "x":919.941176470588,
                  "y":131.529411764706
+                }, 
+                {
+                 "class":"",
+                 "gid":169,
+                 "height":16,
+                 "id":8,
+                 "name":"blue_ninja",
+                 "rotation":0,
+                 "visible":true,
+                 "width":16,
+                 "x":1437.58823529412,
+                 "y":155.058823529412
+                }, 
+                {
+                 "class":"",
+                 "gid":197,
+                 "height":50,
+                 "id":9,
+                 "name":"demon",
+                 "rotation":0,
+                 "visible":true,
+                 "width":50,
+                 "x":1069.11764705882,
+                 "y":139.705882352941
+                }, 
+                {
+                 "class":"",
+                 "gid":197,
+                 "height":50,
+                 "id":10,
+                 "name":"demon",
+                 "rotation":0,
+                 "visible":true,
+                 "width":50,
+                 "x":1251.47058823529,
+                 "y":142.647058823529
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -147,7 +183,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":8,
+ "nextobjectid":11,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",
@@ -164,6 +200,14 @@
         {
          "firstgid":141,
          "source":"dark_ninja_tileset.json"
+        }, 
+        {
+         "firstgid":169,
+         "source":"blue_ninja_tileset.json"
+        }, 
+        {
+         "firstgid":197,
+         "source":"demon_cyclop_idle_tileset.json"
         }],
  "tilewidth":32,
  "type":"map",

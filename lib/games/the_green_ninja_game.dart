@@ -2,7 +2,9 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:the_green_ninja/constants/globals.dart';
+import 'package:the_green_ninja/enemies/blue_ninja_enemy.dart';
 import 'package:the_green_ninja/enemies/dark_ninja_enemy.dart';
+import 'package:the_green_ninja/enemies/demon_cyclop_enemy.dart';
 import 'package:the_green_ninja/enums/attack_type.dart';
 import 'package:the_green_ninja/npcs/old_man_npc.dart';
 import 'package:the_green_ninja/players/green_ninja_player.dart';
@@ -62,6 +64,13 @@ class _TheGreenNinjaGameState extends State<TheGreenNinjaGame> {
           'dark_ninja': (TiledObjectProperties properties) => DarkNinjaEnemy(
                 position: properties.position,
                 spriteSheet: DarkNinjaSpriteSheet.spriteSheet,
+              ),
+          'blue_ninja': (TiledObjectProperties properties) => BlueNinjaEnemy(
+                position: properties.position,
+                spriteSheet: BlueNinjaSpriteSheet.spriteSheet,
+              ),
+          'demon': (TiledObjectProperties properties) => DemonCyclopEnemy(
+                position: properties.position,
               ),
         },
       ),

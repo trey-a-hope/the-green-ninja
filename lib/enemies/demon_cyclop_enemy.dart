@@ -6,22 +6,19 @@ import 'package:the_green_ninja/constants/collision_configs.dart';
 import 'package:the_green_ninja/constants/globals.dart';
 import 'package:the_green_ninja/decorations/medipack.dart';
 
-class DarkNinjaEnemy extends SimpleEnemy
+class DemonCyclopEnemy extends SimpleEnemy
     with ObjectCollision, AutomaticRandomMovement, UseBarLife {
   bool _seePlayerToAttackMelee = false;
   final double _damage = 10;
 
-  DarkNinjaEnemy({
+  DemonCyclopEnemy({
     required Vector2 position,
-    required SpriteSheet spriteSheet,
   }) : super(
-          animation: AnimationConfigs.darkNinjaAnimation(
-            spriteSheet: spriteSheet,
-          ),
+          animation: AnimationConfigs.demonCyclopAnimation(),
           size: Vector2.all(Globals.playerSize),
           position: position,
           initDirection: Direction.down,
-          speed: Globals.playerSize,
+          speed: Globals.playerSize * 2,
           life: 100,
         ) {
     setupBarLife(
@@ -77,7 +74,7 @@ class DarkNinjaEnemy extends SimpleEnemy
             if (gameRef.player != null && gameRef.player?.isDead == true)
               return;
             simpleAttackRange(
-              animationRight: AnimationConfigs.shurikenAnimation(),
+              animationRight: AnimationConfigs.fireBallAnimation(),
               animationDestroy: AnimationConfigs.smokeAnimation(),
               size: Vector2.all(width * 0.9),
               damage: _damage,

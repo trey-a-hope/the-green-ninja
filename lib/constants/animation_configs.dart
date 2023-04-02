@@ -5,6 +5,24 @@ import 'package:the_green_ninja/sprite_sheets/sprite_sheets.dart';
 class AnimationConfigs {
   AnimationConfigs._();
 
+  static Future<SpriteAnimation> fireBallAnimation() => SpriteAnimation.load(
+        Globals.fireBall,
+        SpriteAnimationData.sequenced(
+          amount: 2,
+          stepTime: Globals.spriteStepTime,
+          textureSize: Vector2(32, 32),
+        ),
+      );
+
+  static Future<SpriteAnimation> shurikenAnimation() => SpriteAnimation.load(
+        Globals.shuriken,
+        SpriteAnimationData.sequenced(
+          amount: 1,
+          stepTime: Globals.spriteStepTime,
+          textureSize: Vector2(32, 32),
+        ),
+      );
+
   static Future<SpriteAnimation> smokeAnimation() => SpriteAnimation.load(
         Globals.smoke,
         SpriteAnimationData.sequenced(
@@ -33,12 +51,81 @@ class AnimationConfigs {
         ),
       );
 
-  static Future<SpriteAnimation> shurikenAnimation() => SpriteAnimation.load(
-        Globals.shuriken,
+  static Future<SpriteAnimation> bigEnergyBallAnimation() =>
+      SpriteAnimation.load(
+        Globals.bigEnergyBall,
         SpriteAnimationData.sequenced(
-          amount: 1,
+          amount: 4,
           stepTime: Globals.spriteStepTime,
-          textureSize: Vector2(32, 32),
+          textureSize: Vector2(24, 24),
+        ),
+      );
+
+  static SimpleDirectionAnimation demonCyclopAnimation() =>
+      SimpleDirectionAnimation(
+        idleDown: SpriteAnimation.load(
+          Globals.demonCyclopIdlSpriteSheet,
+          SpriteAnimationData.sequenced(
+            amount: 5,
+            stepTime: Globals.spriteStepTime,
+            textureSize: Vector2(50, 50),
+          ),
+        ),
+        runDown: SpriteAnimation.load(
+          Globals.demonCyclopWalkSpriteSheet,
+          SpriteAnimationData.sequenced(
+            amount: 6,
+            stepTime: Globals.spriteStepTime,
+            textureSize: Vector2(50, 50),
+          ),
+        ),
+        idleUp: SpriteAnimation.load(
+          Globals.demonCyclopIdlSpriteSheet,
+          SpriteAnimationData.sequenced(
+            amount: 5,
+            stepTime: Globals.spriteStepTime,
+            textureSize: Vector2(50, 50),
+          ),
+        ),
+        runUp: SpriteAnimation.load(
+          Globals.demonCyclopWalkSpriteSheet,
+          SpriteAnimationData.sequenced(
+            amount: 6,
+            stepTime: Globals.spriteStepTime,
+            textureSize: Vector2(50, 50),
+          ),
+        ),
+        idleLeft: SpriteAnimation.load(
+          Globals.demonCyclopIdlSpriteSheet,
+          SpriteAnimationData.sequenced(
+            amount: 5,
+            stepTime: Globals.spriteStepTime,
+            textureSize: Vector2(50, 50),
+          ),
+        ),
+        runLeft: SpriteAnimation.load(
+          Globals.demonCyclopWalkSpriteSheet,
+          SpriteAnimationData.sequenced(
+            amount: 6,
+            stepTime: Globals.spriteStepTime,
+            textureSize: Vector2(50, 50),
+          ),
+        ),
+        idleRight: SpriteAnimation.load(
+          Globals.demonCyclopIdlSpriteSheet,
+          SpriteAnimationData.sequenced(
+            amount: 5,
+            stepTime: Globals.spriteStepTime,
+            textureSize: Vector2(50, 50),
+          ),
+        ),
+        runRight: SpriteAnimation.load(
+          Globals.demonCyclopWalkSpriteSheet,
+          SpriteAnimationData.sequenced(
+            amount: 6,
+            stepTime: Globals.spriteStepTime,
+            textureSize: Vector2(50, 50),
+          ),
         ),
       );
 
@@ -117,75 +204,6 @@ class AnimationConfigs {
             Globals.spriteStepTime,
             Globals.spriteStepTime,
           ],
-        ),
-      );
-
-  static SimpleDirectionAnimation demonCyclopAnimation(
-          {required SpriteSheet spriteSheet}) =>
-      SimpleDirectionAnimation(
-        idleDown: SpriteAnimation.load(
-          Globals.demonCyclopIdlSpriteSheet,
-          SpriteAnimationData.sequenced(
-            amount: 5,
-            stepTime: Globals.spriteStepTime,
-            textureSize: Vector2(50, 50),
-          ),
-        ),
-        runDown: SpriteAnimation.load(
-          Globals.demonCyclopWalkSpriteSheet,
-          SpriteAnimationData.sequenced(
-            amount: 6,
-            stepTime: Globals.spriteStepTime,
-            textureSize: Vector2(50, 50),
-          ),
-        ),
-        idleUp: SpriteAnimation.load(
-          Globals.demonCyclopIdlSpriteSheet,
-          SpriteAnimationData.sequenced(
-            amount: 5,
-            stepTime: Globals.spriteStepTime,
-            textureSize: Vector2(50, 50),
-          ),
-        ),
-        runUp: SpriteAnimation.load(
-          Globals.demonCyclopWalkSpriteSheet,
-          SpriteAnimationData.sequenced(
-            amount: 6,
-            stepTime: Globals.spriteStepTime,
-            textureSize: Vector2(50, 50),
-          ),
-        ),
-        idleLeft: SpriteAnimation.load(
-          Globals.demonCyclopIdlSpriteSheet,
-          SpriteAnimationData.sequenced(
-            amount: 5,
-            stepTime: Globals.spriteStepTime,
-            textureSize: Vector2(50, 50),
-          ),
-        ),
-        runLeft: SpriteAnimation.load(
-          Globals.demonCyclopWalkSpriteSheet,
-          SpriteAnimationData.sequenced(
-            amount: 6,
-            stepTime: Globals.spriteStepTime,
-            textureSize: Vector2(50, 50),
-          ),
-        ),
-        idleRight: SpriteAnimation.load(
-          Globals.demonCyclopIdlSpriteSheet,
-          SpriteAnimationData.sequenced(
-            amount: 5,
-            stepTime: Globals.spriteStepTime,
-            textureSize: Vector2(50, 50),
-          ),
-        ),
-        runRight: SpriteAnimation.load(
-          Globals.demonCyclopWalkSpriteSheet,
-          SpriteAnimationData.sequenced(
-            amount: 6,
-            stepTime: Globals.spriteStepTime,
-            textureSize: Vector2(50, 50),
-          ),
         ),
       );
 

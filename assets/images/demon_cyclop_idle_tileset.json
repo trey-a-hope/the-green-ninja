@@ -1,0 +1,14 @@
+{ "columns":5,
+ "image":"sprite_sheets\/demon_cyclop_idle.png",
+ "imageheight":50,
+ "imagewidth":250,
+ "margin":0,
+ "name":"demon_cyclop_idle_tileset",
+ "spacing":0,
+ "tilecount":5,
+ "tiledversion":"1.9.2",
+ "tileheight":50,
+ "tilewidth":50,
+ "type":"tileset",
+ "version":"1.9"
+}

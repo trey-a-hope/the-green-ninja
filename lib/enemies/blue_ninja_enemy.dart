@@ -4,25 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:the_green_ninja/constants/animation_configs.dart';
 import 'package:the_green_ninja/constants/collision_configs.dart';
 import 'package:the_green_ninja/constants/globals.dart';
-import 'package:the_green_ninja/decorations/medipack.dart';
 
-class DarkNinjaEnemy extends SimpleEnemy
+class BlueNinjaEnemy extends SimpleEnemy
     with ObjectCollision, AutomaticRandomMovement, UseBarLife {
   bool _seePlayerToAttackMelee = false;
-  final double _damage = 10;
+  final double _damage = 20;
 
-  DarkNinjaEnemy({
+  BlueNinjaEnemy({
     required Vector2 position,
     required SpriteSheet spriteSheet,
   }) : super(
-          animation: AnimationConfigs.darkNinjaAnimation(
+          animation: AnimationConfigs.blueNinjaAnimation(
             spriteSheet: spriteSheet,
           ),
           size: Vector2.all(Globals.playerSize),
           position: position,
           initDirection: Direction.down,
           speed: Globals.playerSize,
-          life: 100,
+          life: 200,
         ) {
     setupBarLife(
       showLifeText: false,
@@ -77,7 +76,7 @@ class DarkNinjaEnemy extends SimpleEnemy
             if (gameRef.player != null && gameRef.player?.isDead == true)
               return;
             simpleAttackRange(
-              animationRight: AnimationConfigs.shurikenAnimation(),
+              animationRight: AnimationConfigs.bigEnergyBallAnimation(),
               animationDestroy: AnimationConfigs.smokeAnimation(),
               size: Vector2.all(width * 0.9),
               damage: _damage,
@@ -103,7 +102,6 @@ class DarkNinjaEnemy extends SimpleEnemy
   void die() {
     gameRef.camera.shake(intensity: 4);
     removeFromParent();
-    gameRef.add(Medipack(position: position));
     super.die();
   }
 }
