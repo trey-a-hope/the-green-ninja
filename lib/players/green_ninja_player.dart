@@ -34,11 +34,11 @@ class GreenNinjaPlayer extends SimplePlayer {
         if (gameRef.player != null && gameRef.player?.isDead == true) return;
 
         simpleAttackRange(
-          animationDown: AnimationConfigs.shurikenMagicAnimation,
-          animationUp: AnimationConfigs.shurikenMagicAnimation,
-          animationLeft: AnimationConfigs.shurikenMagicAnimation,
-          animationRight: AnimationConfigs.shurikenMagicAnimation,
-          animationDestroy: AnimationConfigs.shurikenMagicAnimation,
+          animationDown: AnimationConfigs.shurikenMagicAnimation(),
+          animationUp: AnimationConfigs.shurikenMagicAnimation(),
+          animationLeft: AnimationConfigs.shurikenMagicAnimation(),
+          animationRight: AnimationConfigs.shurikenMagicAnimation(),
+          animationDestroy: AnimationConfigs.shurikenMagicAnimation(),
           size: Vector2.all(width),
           damage: _damage,
           speed: Globals.defaultTileSize * 3,
@@ -52,16 +52,9 @@ class GreenNinjaPlayer extends SimplePlayer {
 
         simpleAttackMelee(
           withPush: false,
-          size: Vector2.all(size.y),
+          size: Vector2.all(width),
           damage: _damage * 2,
-          animationRight: SpriteAnimation.load(
-            Globals.cut,
-            SpriteAnimationData.sequenced(
-              amount: 6,
-              stepTime: Globals.spriteStepTime,
-              textureSize: Vector2(32, 32),
-            ),
-          ),
+          animationRight: AnimationConfigs.cutAnimation(),
         );
       }
     }
