@@ -2,10 +2,11 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:the_green_ninja/constants/animation_configs.dart';
+import 'package:the_green_ninja/constants/collision_configs.dart';
 import 'package:the_green_ninja/constants/globals.dart';
 
 class DarkNinjaEnemy extends SimpleEnemy
-    with AutomaticRandomMovement, UseBarLife {
+    with ObjectCollision, AutomaticRandomMovement, UseBarLife {
   DarkNinjaEnemy({
     required Vector2 position,
     required SpriteSheet spriteSheet,
@@ -23,6 +24,10 @@ class DarkNinjaEnemy extends SimpleEnemy
       showLifeText: false,
       borderRadius: BorderRadius.circular(2),
       borderWidth: 2,
+    );
+
+    setupCollision(
+      CollisionConfigs.playerCollisionConfig(),
     );
   }
 
@@ -54,5 +59,12 @@ class DarkNinjaEnemy extends SimpleEnemy
         );
       },
     );
+  }
+
+  @override
+  void die() {
+    gameRef.camera.shake(intensity: 4);
+    removeFromParent();
+    super.die();
   }
 }
