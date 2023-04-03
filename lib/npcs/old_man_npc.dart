@@ -5,43 +5,37 @@ import 'package:the_green_ninja/constants/animation_configs.dart';
 import 'package:the_green_ninja/constants/globals.dart';
 import 'package:the_green_ninja/sprite_sheets/sprite_sheets.dart';
 
-class OldManNPC extends SimpleNpc with TapGesture, AutomaticRandomMovement {
-  bool _observedPlayer = false;
-  late TextPaint _textConfig;
+class OldManNpc extends SimpleNpc with TapGesture, AutomaticRandomMovement {
+  bool _observed = false;
+  late TextPaint _textPaint;
 
-  OldManNPC({
-    required Vector2 position,
-    required SpriteSheet spriteSheet,
-  }) : super(
-          animation: AnimationConfigs.oldManAnimation(spriteSheet: spriteSheet),
-          size: Vector2.all(Globals.playerSize),
+  OldManNpc({required Vector2 position, required SpriteSheet spriteSheet})
+      : super(
           position: position,
-          initDirection: Direction.left,
-          speed: Globals.playerSize,
+          size: Vector2(Globals.playerSize, Globals.playerSize),
+          speed: 100,
+          initDirection: Direction.down,
+          animation: AnimationConfigs.oldManAnimation(spriteSheet: spriteSheet),
         ) {
-    _textConfig = TextPaint(
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: width / 2,
-      ),
+    _textPaint = TextPaint(
+      style: TextStyle(color: Colors.white, fontSize: width / 2),
     );
   }
 
   @override
   void onTap() {
-    if (_observedPlayer) {
-      _showTalkDialog();
-    }
+    _showDialogTalk();
   }
 
   @override
   void render(Canvas canvas) {
     super.render(canvas);
-    if (_observedPlayer) {
-      _textConfig.render(
+
+    if (_observed) {
+      _textPaint.render(
         canvas,
-        'Well, if it isn\'t Green Ninja.',
-        Vector2(x - width / 1.5, center.y - (height + 5)),
+        'Hey Green Ninja!',
+        Vector2(position.x - 30, position.y - 30),
       );
     }
   }
@@ -49,16 +43,17 @@ class OldManNPC extends SimpleNpc with TapGesture, AutomaticRandomMovement {
   @override
   void update(double dt) {
     super.update(dt);
+
     seeAndMoveToPlayer(
       closePlayer: (player) {},
       radiusVision: Globals.radiusVision,
       observed: () {
-        if (!_observedPlayer) {
-          _observedPlayer = true;
+        if (!_observed) {
+          _observed = true;
         }
       },
       notObserved: () {
-        _observedPlayer = false;
+        _observed = false;
         runRandomMovement(
           dt,
           maxDistance: Globals.observeMaxDistance,
@@ -68,15 +63,36 @@ class OldManNPC extends SimpleNpc with TapGesture, AutomaticRandomMovement {
     );
   }
 
-  Say speak({required String text, required bool isHero}) => Say(
+  void _showDialogTalk() {
+    gameRef.camera.moveToTargetAnimated(
+      this,
+      zoom: 2,
+      finish: () {
+        TalkDialog.show(gameRef.context, [
+          _speak(text: 'Hey wassup Green Nina, are you lost?', isHero: false),
+          _speak(
+              text:
+                  'Hello Old Man, pleasure seeing you. Do you know where the coin is?',
+              isHero: true),
+          _speak(text: 'Ah yes, the blue ninja has the coin.', isHero: false),
+          _speak(text: 'Say less.', isHero: true),
+        ], logicalKeyboardKeysToNext: [
+          LogicalKeyboardKey.space,
+          LogicalKeyboardKey.enter,
+        ], onClose: () {
+          gameRef.camera.moveToPlayerAnimated(zoom: 1);
+        });
+      },
+    );
+  }
+
+  Say _speak({required String text, required bool isHero}) => Say(
         text: [
-          TextSpan(
-            text: text,
-          )
+          TextSpan(text: text),
         ],
         person: SizedBox(
-          width: Globals.dialogBox,
           height: Globals.dialogBox,
+          width: Globals.dialogBox,
           child: isHero
               ? GreenNinjaSpriteSheet.spriteSheet.getSprite(0, 0).asWidget()
               : OldManSpriteSheet.spriteSheet.getSprite(0, 0).asWidget(),
@@ -84,33 +100,4 @@ class OldManNPC extends SimpleNpc with TapGesture, AutomaticRandomMovement {
         personSayDirection:
             isHero ? PersonSayDirection.LEFT : PersonSayDirection.RIGHT,
       );
-
-  void _showTalkDialog() {
-    gameRef.camera.moveToTargetAnimated(
-      this,
-      zoom: 2,
-      finish: () {
-        TalkDialog.show(
-          gameRef.context,
-          [
-            speak(isHero: false, text: 'Hello, Green Ninja. Are you lost?'),
-            speak(
-                isHero: true,
-                text: 'Greetings old man, I\'m well. Looking for the coin.'),
-            speak(
-                isHero: false, text: 'Ah, the coin. The Blue Ninja has that.'),
-            speak(isHero: true, text: 'Say less.'),
-          ],
-          onClose: () {
-            gameRef.camera.moveToPlayerAnimated(zoom: 1);
-          },
-          onFinish: () {},
-          logicalKeyboardKeysToNext: [
-            LogicalKeyboardKey.space,
-            LogicalKeyboardKey.enter
-          ],
-        );
-      },
-    );
-  }
 }

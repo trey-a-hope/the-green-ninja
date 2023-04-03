@@ -7,22 +7,19 @@ import 'package:the_green_ninja/constants/globals.dart';
 import 'package:the_green_ninja/decorations/coin.dart';
 
 class BlueNinjaEnemy extends SimpleEnemy
-    with ObjectCollision, AutomaticRandomMovement, UseBarLife {
+    with AutomaticRandomMovement, UseBarLife, ObjectCollision {
   bool _seePlayerToAttackMelee = false;
   final double _damage = 20;
 
-  BlueNinjaEnemy({
-    required Vector2 position,
-    required SpriteSheet spriteSheet,
-  }) : super(
-          animation: AnimationConfigs.blueNinjaAnimation(
-            spriteSheet: spriteSheet,
-          ),
-          size: Vector2.all(Globals.playerSize),
+  BlueNinjaEnemy({required Vector2 position, required SpriteSheet spriteSheet})
+      : super(
           position: position,
-          initDirection: Direction.down,
-          speed: Globals.playerSize,
+          size: Vector2(Globals.playerSize, Globals.playerSize),
+          speed: 150,
           life: 200,
+          initDirection: Direction.down,
+          animation:
+              AnimationConfigs.greenNinjaAnimation(spriteSheet: spriteSheet),
         ) {
     setupBarLife(
       showLifeText: false,
@@ -40,53 +37,60 @@ class BlueNinjaEnemy extends SimpleEnemy
     FlameAudio.play(Globals.explosionSound);
     showDamage(
       damage,
-      config: TextStyle(
-        fontSize: width / 3,
-        color: Colors.red,
-      ),
+      config: TextStyle(fontSize: width / 3, color: Colors.red),
     );
+
     super.receiveDamage(attacker, damage, identify);
   }
 
   @override
+  void die() {
+    gameRef.camera.shake(intensity: 4);
+    removeFromParent();
+
+    gameRef.add(Coin(position: position));
+    super.die();
+  }
+
+  @override
   void update(double dt) {
-    super.update(dt);
     if (!gameRef.sceneBuilderStatus.isRunning) {
       _seePlayerToAttackMelee = false;
 
       seeAndMoveToPlayer(
         closePlayer: (player) {
-          if (gameRef.player != null && gameRef.player?.isDead == true) return;
-          simpleAttackMelee(
-            size: Vector2.all(size.y),
-            damage: _damage,
-            sizePush: Globals.defaultTileSize / 2,
-            animationRight: AnimationConfigs.cutAnimation(),
-          );
+          if (!player.isDead) {
+            simpleAttackMelee(
+              withPush: false,
+              damage: _damage * 2,
+              size: size,
+              animationRight: AnimationConfigs.cutAnimation(),
+            );
+          }
         },
+        radiusVision: Globals.radiusVision,
         observed: () {
           _seePlayerToAttackMelee = true;
         },
-        radiusVision: Globals.defaultTileSize * 2,
       );
 
       if (!_seePlayerToAttackMelee) {
         seeAndMoveToAttackRange(
           minDistanceFromPlayer: Globals.defaultTileSize * 4,
-          positioned: (p) {
-            if (gameRef.player != null && gameRef.player?.isDead == true)
-              return;
-            simpleAttackRange(
-              animationRight: AnimationConfigs.bigEnergyBallAnimation(),
-              animationDestroy: AnimationConfigs.smokeAnimation(),
-              size: Vector2.all(width * 0.9),
-              damage: _damage,
-              speed: Globals.defaultTileSize * 3,
-              collision:
-                  CollisionConfigs.projectileCollisionConfig(width: width),
-            );
+          positioned: (player) {
+            if (!player.isDead) {
+              simpleAttackRange(
+                damage: _damage,
+                animationRight: AnimationConfigs.bigEnergyBallAnimation(),
+                animationDestroy: AnimationConfigs.smokeAnimation(),
+                size: size,
+                collision: CollisionConfigs.projectileCollisionConfig(
+                  width: width,
+                ),
+              );
+            }
           },
-          radiusVision: Globals.radiusVision * 3,
+          radiusVision: Globals.radiusVision * 2,
           notObserved: () {
             runRandomMovement(
               dt,
@@ -97,13 +101,7 @@ class BlueNinjaEnemy extends SimpleEnemy
         );
       }
     }
-  }
 
-  @override
-  void die() {
-    gameRef.camera.shake(intensity: 4);
-    removeFromParent();
-    gameRef.add(Coin(position: position));
-    super.die();
+    super.update(dt);
   }
 }
