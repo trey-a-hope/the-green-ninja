@@ -19,7 +19,7 @@ class BlueNinjaEnemy extends SimpleEnemy
           life: 200,
           initDirection: Direction.down,
           animation:
-              AnimationConfigs.greenNinjaAnimation(spriteSheet: spriteSheet),
+              AnimationConfigs.darkNinjaAnimation(spriteSheet: spriteSheet),
         ) {
     setupBarLife(
       showLifeText: false,

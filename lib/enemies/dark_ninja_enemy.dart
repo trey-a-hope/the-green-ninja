@@ -21,7 +21,7 @@ class DarkNinjaEnemy extends SimpleEnemy
           life: 100,
           initDirection: Direction.down,
           animation:
-              AnimationConfigs.greenNinjaAnimation(spriteSheet: spriteSheet),
+              AnimationConfigs.darkNinjaAnimation(spriteSheet: spriteSheet),
         ) {
     setupBarLife(
       showLifeText: false,
