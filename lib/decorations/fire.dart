@@ -5,7 +5,9 @@ import 'package:the_green_ninja/constants/animation_configs.dart';
 import 'package:the_green_ninja/constants/globals.dart';
 import 'package:the_green_ninja/players/green_ninja_player.dart';
 
-class Fire extends GameDecoration with Sensor<GreenNinjaPlayer>, Lighting {
+class Fire extends GameDecoration
+    with Sensor<GreenNinjaPlayer>
+    implements Lighting {
   final double _damage = 5;
   Fire({required Vector2 position})
       : super.withAnimation(
@@ -17,7 +19,7 @@ class Fire extends GameDecoration with Sensor<GreenNinjaPlayer>, Lighting {
       LightingConfig(
         radius: width * 2,
         blurBorder: width * 2,
-        color: Colors.yellow.withOpacity(0.1),
+        color: Colors.yellow.withValues(alpha: 0.1),
       ),
     );
   }

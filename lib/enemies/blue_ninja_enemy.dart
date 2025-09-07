@@ -2,12 +2,10 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:the_green_ninja/constants/animation_configs.dart';
-import 'package:the_green_ninja/constants/collision_configs.dart';
 import 'package:the_green_ninja/constants/globals.dart';
 import 'package:the_green_ninja/decorations/coin.dart';
 
-class BlueNinjaEnemy extends SimpleEnemy
-    with AutomaticRandomMovement, UseBarLife, ObjectCollision {
+class BlueNinjaEnemy extends SimpleEnemy with RandomMovement, UseLifeBar {
   bool _seePlayerToAttackMelee = false;
   final double _damage = 20;
 
@@ -21,35 +19,36 @@ class BlueNinjaEnemy extends SimpleEnemy
           animation:
               AnimationConfigs.darkNinjaAnimation(spriteSheet: spriteSheet),
         ) {
-    setupBarLife(
+    setupLifeBar(
       showLifeText: false,
       borderRadius: BorderRadius.circular(2),
       borderWidth: 2,
     );
-
-    setupCollision(
-      CollisionConfigs.playerCollisionConfig(),
-    );
   }
 
   @override
-  void receiveDamage(AttackFromEnum attacker, double damage, identify) {
+  Future<void> onLoad() {
+    add(CircleHitbox(radius: size.length));
+    return super.onLoad();
+  }
+
+  @override
+  void onReceiveDamage(AttackOriginEnum attacker, double damage, identify) {
     FlameAudio.play(Globals.explosionSound);
     showDamage(
       damage,
       config: TextStyle(fontSize: width / 3, color: Colors.red),
     );
-
-    super.receiveDamage(attacker, damage, identify);
+    super.onReceiveDamage(attacker, damage, identify);
   }
 
   @override
-  void die() {
+  void onDie() {
     gameRef.camera.shake(intensity: 4);
     removeFromParent();
 
     gameRef.add(Coin(position: position));
-    super.die();
+    super.onDie();
   }
 
   @override
@@ -81,12 +80,10 @@ class BlueNinjaEnemy extends SimpleEnemy
             if (!player.isDead) {
               simpleAttackRange(
                 damage: _damage,
-                animationRight: AnimationConfigs.bigEnergyBallAnimation(),
+                animation: AnimationConfigs.bigEnergyBallAnimation(),
                 animationDestroy: AnimationConfigs.smokeAnimation(),
                 size: size,
-                collision: CollisionConfigs.projectileCollisionConfig(
-                  width: width,
-                ),
+                collision: RectangleHitbox(size: size),
               );
             }
           },
@@ -97,6 +94,8 @@ class BlueNinjaEnemy extends SimpleEnemy
               maxDistance: Globals.observeMaxDistance,
               minDistance: Globals.observeMinDistance,
             );
+
+            return _seePlayerToAttackMelee;
           },
         );
       }

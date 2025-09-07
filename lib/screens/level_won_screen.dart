@@ -10,7 +10,7 @@ class LevelWonScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Material(
-        color: Colors.transparent.withOpacity(0.5),
+        color: Colors.transparent.withValues(alpha: 0.5),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

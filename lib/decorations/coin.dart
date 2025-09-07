@@ -18,6 +18,6 @@ class Coin extends GameDecoration with Sensor<GreenNinjaPlayer> {
     FlameAudio.play(Globals.successSound);
     removeFromParent();
     gameRef.pauseEngine();
-    gameRef.overlayManager.add(LevelWonScreen.id);
+    gameRef.overlays.add(LevelWonScreen.id);
   }
 }

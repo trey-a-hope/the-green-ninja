@@ -3,13 +3,12 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:the_green_ninja/constants/animation_configs.dart';
-import 'package:the_green_ninja/constants/collision_configs.dart';
 import 'package:the_green_ninja/constants/globals.dart';
 import 'package:the_green_ninja/enums/attack_type.dart';
 import 'package:the_green_ninja/screens/game_over_screen.dart';
 
 class GreenNinjaPlayer extends SimplePlayer
-    with ObjectCollision, UseBarLife, Lighting {
+    with UseLifeBar, Lighting, BlockMovementCollision {
   final double _damage = 10;
 
   GreenNinjaPlayer(
@@ -23,7 +22,7 @@ class GreenNinjaPlayer extends SimplePlayer
           animation:
               AnimationConfigs.greenNinjaAnimation(spriteSheet: spriteSheet),
         ) {
-    setupBarLife(
+    setupLifeBar(
       showLifeText: false,
       borderRadius: BorderRadius.circular(2),
       borderWidth: 2,
@@ -33,42 +32,44 @@ class GreenNinjaPlayer extends SimplePlayer
       LightingConfig(
         radius: width * 2,
         blurBorder: width * 2,
-        color: Colors.yellow.withOpacity(0.1),
+        color: Colors.yellow.withValues(alpha: 0.1),
       ),
-    );
-
-    setupCollision(
-      CollisionConfigs.playerCollisionConfig(),
     );
   }
 
   @override
-  void receiveDamage(AttackFromEnum attacker, double damage, identify) {
-    if (attacker == AttackFromEnum.ENEMY) {
+  Future<void> onLoad() {
+    add(CircleHitbox(radius: 21.5));
+    return super.onLoad();
+  }
+
+  @override
+  void onReceiveDamage(AttackOriginEnum attacker, double damage, identify) {
+    if (attacker == AttackOriginEnum.ENEMY) {
       FlameAudio.play(Globals.explosionSound);
       showDamage(
         damage,
         config: TextStyle(fontSize: width / 3, color: Colors.red),
       );
     }
-    super.receiveDamage(attacker, damage, identify);
+    super.onReceiveDamage(attacker, damage, identify);
   }
 
   @override
-  void die() {
+  void onDie() {
     FlameAudio.play(Globals.gameOverSound);
     gameRef.camera.shake(intensity: 4);
     removeFromParent();
     gameRef.pauseEngine();
-    gameRef.overlayManager.add(GameOverScreen.id);
-    super.die();
+    gameRef.overlays.add(GameOverScreen.id);
+    super.onDie();
   }
 
   @override
-  void joystickAction(JoystickActionEvent event) {
+  void onJoystickAction(JoystickActionEvent event) {
     if (event.event == ActionEvent.DOWN) {
       if (event.id == AttackType.melee ||
-          event.id == LogicalKeyboardKey.numpad0.keyId) {
+          event.id == LogicalKeyboardKey.space) {
         if (gameRef.player != null && gameRef.player?.isDead == true) return;
         simpleAttackMelee(
           withPush: false,
@@ -79,22 +80,16 @@ class GreenNinjaPlayer extends SimplePlayer
       }
 
       if (event.id == AttackType.range ||
-          event.id == LogicalKeyboardKey.numpadEnter.keyId) {
+          event.id == LogicalKeyboardKey.enter) {
         if (gameRef.player != null && gameRef.player?.isDead == true) return;
         simpleAttackRange(
           damage: _damage,
           animationRight: AnimationConfigs.shurikenMagicAnimation(),
-          animationLeft: AnimationConfigs.shurikenMagicAnimation(),
-          animationUp: AnimationConfigs.shurikenMagicAnimation(),
-          animationDown: AnimationConfigs.shurikenMagicAnimation(),
           size: size,
-          collision: CollisionConfigs.projectileCollisionConfig(
-            width: width,
-          ),
+          collision: RectangleHitbox(size: size),
         );
       }
     }
-
-    super.joystickAction(event);
+    super.onJoystickAction(event);
   }
 }

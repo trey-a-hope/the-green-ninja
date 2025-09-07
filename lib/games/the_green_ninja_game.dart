@@ -1,6 +1,5 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:the_green_ninja/constants/globals.dart';
 import 'package:the_green_ninja/decorations/fire.dart';
 import 'package:the_green_ninja/enemies/blue_ninja_enemy.dart';
@@ -8,6 +7,7 @@ import 'package:the_green_ninja/enemies/dark_ninja_enemy.dart';
 import 'package:the_green_ninja/enemies/demon_enemy.dart';
 import 'package:the_green_ninja/enums/attack_type.dart';
 import 'package:the_green_ninja/enums/map_id.dart';
+import 'package:the_green_ninja/main.dart';
 import 'package:the_green_ninja/npcs/old_man_npc.dart';
 import 'package:the_green_ninja/players/green_ninja_player.dart';
 import 'package:the_green_ninja/screens/game_over_screen.dart';
@@ -33,11 +33,7 @@ class _TheGreenNinjaGameState extends State<TheGreenNinjaGame> {
 
   @override
   void initState() {
-    selectMap = (MapId id) {
-      setState(() {
-        currentMapId = id;
-      });
-    };
+    selectMap = (MapId id) => setState(() => currentMapId = id);
     super.initState();
   }
 
@@ -47,8 +43,12 @@ class _TheGreenNinjaGameState extends State<TheGreenNinjaGame> {
       case MapId.one:
       case MapId.two:
       case MapId.three:
-      default:
+        final greenNinjaPlayer = GreenNinjaPlayer(
+          position: Vector2(480, 1000),
+          spriteSheet: GreenNinjaSpriteSheet.spriteSheet,
+        );
         return BonfireWidget(
+          onReady: _onReady,
           key: Key(DateTime.now().toIso8601String()),
           overlayBuilderMap: {
             GameOverScreen.id: (context, game) => const GameOverScreen(),
@@ -58,47 +58,50 @@ class _TheGreenNinjaGameState extends State<TheGreenNinjaGame> {
                   margin: const EdgeInsets.all(20),
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    color: Colors.white.withOpacity(0.5),
+                    color: Colors.white.withValues(alpha: 0.5),
                   ),
                 )
           },
           initialActiveOverlays: const <String>['mini_map'],
-          lightingColorGame: Colors.black.withOpacity(0.5),
-          player: GreenNinjaPlayer(
-            position: Vector2(40, 40),
-            spriteSheet: GreenNinjaSpriteSheet.spriteSheet,
+          lightingColorGame: Colors.black.withValues(alpha: 0.5),
+          player: greenNinjaPlayer,
+          cameraConfig: CameraConfig(
+            initPosition: Vector2(
+              Globals.defaultTileSize * 5,
+              Globals.defaultTileSize * 5,
+            ),
+            target: greenNinjaPlayer, // Target the player
           ),
-          joystick: Joystick(
-            directional: JoystickDirectional(),
-            keyboardConfig: KeyboardConfig(
-              keyboardDirectionalType: KeyboardDirectionalType.wasdAndArrows,
-              acceptedKeys: [
-                LogicalKeyboardKey.numpadEnter,
-                LogicalKeyboardKey.numpad0,
+          playerControllers: [
+            Keyboard(
+              config: KeyboardConfig(
+                enable: true,
+                directionalKeys: [
+                  KeyboardDirectionalKeys.arrows(),
+                ], // Type of the directional (arrows or wasd)
+              ),
+            ),
+            Joystick(
+              directional: JoystickDirectional(),
+              actions: [
+                JoystickAction(
+                  actionId: AttackType.melee,
+                  size: 80,
+                  margin: const EdgeInsets.only(bottom: 50, right: 50),
+                  sprite: Sprite.load(Globals.sword),
+                ),
+                JoystickAction(
+                  actionId: AttackType.range,
+                  size: 50,
+                  margin: const EdgeInsets.only(bottom: 50, right: 160),
+                  sprite: Sprite.load(Globals.shurikenSingle),
+                )
               ],
             ),
-            actions: [
-              JoystickAction(
-                actionId: AttackType.melee,
-                size: 80,
-                margin: const EdgeInsets.only(bottom: 50, right: 50),
-                align: JoystickActionAlign.BOTTOM_RIGHT,
-                sprite: Sprite.load(Globals.sword),
-              ),
-              JoystickAction(
-                actionId: AttackType.range,
-                size: 50,
-                margin: const EdgeInsets.only(bottom: 50, right: 160),
-                sprite: Sprite.load(Globals.shurikenSingle),
-              )
-            ],
-          ),
+          ],
           map: WorldMapByTiled(
-            Globals.mapOne,
-            forceTileSize: Vector2(
-              32,
-              32,
-            ),
+            WorldMapReader.fromAsset(Globals.mapOne),
+            forceTileSize: Vector2(32, 32),
             objectsBuilder: {
               'old_man': (properties) => OldManNpc(
                     position: properties.position,
@@ -122,5 +125,17 @@ class _TheGreenNinjaGameState extends State<TheGreenNinjaGame> {
           ),
         );
     }
+  }
+
+  void _onReady(BonfireGameInterface bgi) {
+    final map = bgi.map;
+    final camera = bgi.camera;
+    final player = bgi.player;
+
+    logger.d('Game ready!');
+
+    logger.d('Map size: ${map.size}');
+    logger.d('Camera bounds: ${camera.viewport.size}');
+    logger.d('Player position: ${player?.position}');
   }
 }

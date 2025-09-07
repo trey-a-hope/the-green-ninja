@@ -5,8 +5,8 @@ class Globals {
   static const double spriteStepTime = 0.1;
 
   /// Distances
-  static const int observeMaxDistance = 70;
-  static const int observeMinDistance = 30;
+  static const observeMaxDistance = 70.0;
+  static const observeMinDistance = 30.0;
   static const double radiusVision = 130;
 
   /// Sounds
